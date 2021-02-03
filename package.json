@@ -5,7 +5,8 @@
     "main": "api.js",
     "scripts": {
         "test": "nodemon .",
-        "start": "node ."
+        "start": "node .",
+        "refresh": "git pull; npm ci"
     },
     "keywords": [],
     "author": "",
