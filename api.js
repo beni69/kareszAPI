@@ -8,12 +8,17 @@ app.get("/light", (req, res, next) => {
 
 app.post("/light/toggle", (req, res, next) => {
     light.toggle();
-    res.status(200).json({data: "Success!"});
+    res.json({data: "Success!"});
 });
 
 app.post("/light/on", (req, res, next) => {
     light.on();
-    res.status(200).json({data: "Success!"});
+    res.json({data: "Success!"});
+});
+
+app.post("/light/off", (req, res, next) => {
+    light.off();
+    res.json({data: "Success!"});
 });
 
 app.listen(3333, () => {

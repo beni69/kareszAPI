@@ -12,7 +12,7 @@ module.exports = {
                     })
             )
             .then(light => {
-                light.toggle();
+                light.toggle().then(console.log("Toggle succeeded"));
                 return light;
             })
             .then(sleep());
@@ -29,7 +29,23 @@ module.exports = {
                     })
             )
             .then(light => {
-                light.set_power("on");
+                light.set_power("on").then(console.log("Power on succeeded"));
+                return light;
+            });
+    },
+    off: () => {
+        Promise.resolve()
+            .then(
+                () =>
+                    new Promise(accept => {
+                        Yeelight.discover(function (light) {
+                            this.close();
+                            accept(light);
+                        });
+                    })
+            )
+            .then(light => {
+                light.set_power("off").then(console.log("Power off succeeded"));
                 return light;
             });
     },
