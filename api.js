@@ -1,43 +1,123 @@
 const express = require("express");
 const app = express();
-const light = require("./light");
+// const light = require("./light.js");
+const Yeelight = require("yeelight2");
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get("/", (req, res) => {
-    succ(res, "Hello World!");
+    res.json({data: "Hello World!", time: new Date().toLocaleString()});
 });
 
 app.post("/toggle", (req, res) => {
-    light.toggle();
-    succ(res);
+    Promise.resolve()
+        .then(
+            () =>
+                new Promise(accept => {
+                    Yeelight.discover(function (light) {
+                        this.close();
+                        accept(light);
+                    });
+                })
+        )
+        .then(light => {
+            light.toggle().then(console.log("Toggle succeeded"));
+            return light;
+        })
+        .then(succ(res))
+        .then(sleep());
 });
 
 app.post("/on", (req, res) => {
-    light.on();
-    res.json({data: "Success!"});
+    Promise.resolve()
+        .then(
+            () =>
+                new Promise(accept => {
+                    Yeelight.discover(function (light) {
+                        this.close();
+                        accept(light);
+                    });
+                })
+        )
+        .then(light => {
+            light.set_power("on").then(console.log("Power on succeeded"));
+            return light;
+        })
+        .then(succ(res))
+        .then(sleep());
 });
 
 app.post("/off", (req, res) => {
-    light.off();
-    res.json({data: "Success!"});
+    Promise.resolve()
+        .then(
+            () =>
+                new Promise(accept => {
+                    Yeelight.discover(function (light) {
+                        this.close();
+                        accept(light);
+                    });
+                })
+        )
+        .then(light => {
+            light.set_power("off").then(console.log("Power off succeeded"));
+            return light;
+        })
+        .then(succ(res))
+        .then(sleep());
 });
 
 app.post("/color", (req, res) => {
-    const color = req.body.color || req.query.color;
-    if (!color) return err(res, "No color provided.");
-    const type = req.body.type || req.query.type;
-    if (!type) return err(res, "No color type provided.");
-    light.color(res, color, type);
-    succ(res);
+    const color = req.body.color || req.query.color || null;
+    const type = req.body.type || req.query.type || null;
+    Promise.resolve()
+        .then(
+            () =>
+                new Promise(accept => {
+                    Yeelight.discover(function (light) {
+                        this.close();
+                        accept(light);
+                    });
+                })
+        )
+        .then(light => {
+            console.log({color: color, type: type});
+            if (type == "hex")
+                light.set_rgb("0x" + color.replace(/0x|#/, "")).then(() => {
+                    console.log(`Set color to ${color} succeeded`);
+                    succ(res);
+                });
+            else if (type == "rgb") {
+                if (toHexCol(color) != null)
+                    light.set_rgb(toHexCol(color)).then(() => {
+                        console.log(`Set color to ${color} succeeded`);
+                        succ(res);
+                    });
+                else err(res, "Invalid RGB format");
+            } else if (type == "name") {
+                const colors = require("./colors.json");
+                let suc = false;
+                colors.forEach(item => {
+                    if (item.name == color) {
+                        light.set_rgb("0x" + item.hex).then(() => {
+                            console.log(`Set color to ${color} succeeded`);
+                            succ(res);
+                        });
+                        suc = true;
+                    }
+                });
+                if (!suc) err(res, "Invalid color name");
+            } else err(res, "Invalid color type format");
+            return light;
+        })
+        .then(sleep());
 });
 
 app.listen(3333, () => {
     console.log("Server ready!");
 });
 
-//*
+//* functions
 function succ(res, msg = "Success!") {
     res.json({data: msg});
 }
@@ -45,4 +125,19 @@ function err(res, msg, code = 400) {
     res.status(code).json({data: "Error!", error: msg});
 }
 
-module.exports = {succ: succ, err: err};
+function sleep(time) {
+    time = time || 10;
+    return function (o) {
+        return new Promise(fn => setTimeout(() => fn(o), time));
+    };
+}
+function toHexNum(input) {
+    let hex = Number(input.trim()).toString(16);
+    if (hex.length < 2) hex = "0" + hex;
+    return hex;
+}
+function toHexCol(str) {
+    const x = str.replace("#", "").split(/ |,|\t/);
+    if (x.length != 3) return null;
+    return "0x" + toHexNum(x[0]) + toHexNum(x[1]) + toHexNum(x[2]);
+}
