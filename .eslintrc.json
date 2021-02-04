@@ -9,5 +9,9 @@
         "ecmaVersion": 12
     },
     "rules": {
+        "no-extra-parens": "warn",
+        "no-else-return": "warn",
+        "camelcase": "warn",
+        "quotes": ["error", "double"]
     }
 }
