@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-// const light = require("./light.js");
 const Yeelight = require("yeelight2");
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
@@ -98,7 +97,7 @@ app.post("/color", (req, res) => {
                 const colors = require("./colors.json");
                 let suc = false;
                 colors.forEach(item => {
-                    if (item.name == color) {
+                    if (item.name.toLowerCase() == color.toLowerCase()) {
                         light.set_rgb("0x" + item.hex).then(() => {
                             console.log(`Set color to ${color} succeeded`);
                             succ(res);
@@ -137,7 +136,7 @@ function toHexNum(input) {
     return hex;
 }
 function toHexCol(str) {
-    const x = str.replace("#", "").split(/ |,|\t/);
+    const x = str.replace(/#|0x/, "").split(/ |,|\t/);
     if (x.length != 3) return null;
     return "0x" + toHexNum(x[0]) + toHexNum(x[1]) + toHexNum(x[2]);
 }
