@@ -11,6 +11,7 @@
     "rules": {
         "no-extra-parens": "warn",
         "no-else-return": "warn",
+        "no-unused-vars": "warn",
         "camelcase": "warn",
         "quotes": ["error", "double"]
     }
