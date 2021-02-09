@@ -1,8 +1,8 @@
 {
-    "name": "lightAPI",
+    "name": "piAPI",
     "version": "1.0.0",
     "description": "",
-    "main": "api.js",
+    "main": "index.js",
     "scripts": {
         "test": "nodemon .",
         "start": "node .",
