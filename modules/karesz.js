@@ -29,6 +29,13 @@ module.exports = (app, succ, err) => {
         succ(res);
     });
 
+    app.delete("/karesz/reaction", (req, res) => {
+        const sure = req.body.sure || req.query.sure || false;
+        if (!sure) return err(res, "NO");
+        fs.rmSync("./data/reactionTimes");
+        succ(res);
+    });
+
     function average(array) {
         let sum = 0;
         array.forEach(item => (sum += item));
