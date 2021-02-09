@@ -15,8 +15,12 @@ module.exports = (app, succ, err) => {
             .split(/\s/)
             .map(x => parseInt(x));
 
-        res.json({data: reactions, average: average(reactions)});
-        reactions.len;
+        res.json({
+            data: reactions,
+            average: average(reactions),
+            max: max(reactions),
+            min: min(reactions),
+        });
     });
 
     app.post("/karesz/reaction", (req, res) => {
@@ -40,5 +44,19 @@ module.exports = (app, succ, err) => {
         let sum = 0;
         array.forEach(item => (sum += item));
         return sum / array.length;
+    }
+    function max(array) {
+        let best = -1;
+        array.forEach(item => {
+            if (item > best) best = item;
+        });
+        return best;
+    }
+    function min(array) {
+        let best = Number.MAX_VALUE;
+        array.forEach(item => {
+            if (item < best) best = item;
+        });
+        return best;
     }
 };
