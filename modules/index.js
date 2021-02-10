@@ -27,5 +27,5 @@ function succ(res, msg = "Success!") {
     res.json({data: msg});
 }
 function err(res, msg, code = 400) {
-    res.status(code).json({data: msg, error: true});
+    res.status(code).json({data: msg});
 }
