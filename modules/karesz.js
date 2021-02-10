@@ -32,9 +32,10 @@ module.exports = (app, succ, err) => {
 
         if (req.headers.origin != process.env.KARESZ_URL)
             return err(res, "Fuck off", 403);
-        if (!time) return err(res, "No time provided");
+        else if (!time) return err(res, "No time provided");
         else if (isNaN(parseInt(time)))
             return err(res, "Data must be a number");
+        else if (parseInt(time) > 1000 || parseInt(time) < 69) return succ(res);
 
         if (!fs.existsSync("./data/")) fs.mkdirSync("./data/");
         fs.appendFileSync("./data/reactionTimes", time + "\n");
