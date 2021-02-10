@@ -90,7 +90,7 @@ module.exports = (app, succ, err) => {
                         });
                     else err(res, "Invalid RGB format");
                 } else if (type == "name") {
-                    const colors = require("../colors.json");
+                    const colors = require("./colors.json");
                     let suc = false;
                     colors.forEach(item => {
                         if (item.name.toLowerCase() == color.toLowerCase()) {

@@ -13,6 +13,7 @@
         "no-else-return": "warn",
         "no-unused-vars": "off",
         "camelcase": "warn",
-        "quotes": ["error", "double"]
+        "quotes": ["error", "double"],
+        "no-undef": "warn"
     }
 }

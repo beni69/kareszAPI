@@ -2,7 +2,11 @@ module.exports = (app, succ, err) => {
     const fs = require("fs");
 
     app.get("/karesz", (req, res) => {
-        res.json({data: "Karesz DB v0.1", time: new Date().toLocaleString()});
+        res.json({
+            data: "Karesz DB v0.1",
+            time: new Date().toLocaleString(),
+            url: process.env.KARESZ_URL,
+        });
     });
 
     app.get("/karesz/reaction", (req, res) => {
@@ -25,8 +29,12 @@ module.exports = (app, succ, err) => {
 
     app.post("/karesz/reaction", (req, res) => {
         const time = req.body.time || req.query.time || null;
-        if (!time) return err(res, "No data provided");
-        if (isNaN(parseInt(time))) return err(res, "Data must be a number");
+
+        if (req.headers.origin != process.env.KARESZ_URL)
+            return err(res, "Fuck off", 403);
+        if (!time) return err(res, "No time provided");
+        else if (isNaN(parseInt(time)))
+            return err(res, "Data must be a number");
 
         if (!fs.existsSync("./data/")) fs.mkdirSync("./data/");
         fs.appendFileSync("./data/reactionTimes", time + "\n");

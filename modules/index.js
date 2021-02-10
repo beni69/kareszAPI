@@ -4,14 +4,15 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 // setup
+require("dotenv").config();
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
 // modules
-require("./modules/light.js")(app, succ, err);
-require("./modules/karesz.js")(app, succ, err);
+require("./light.js")(app, succ, err);
+require("./karesz.js")(app, succ, err);
 
 app.get("/", (req, res) => {
     res.json({data: "Hello World!", time: new Date().toLocaleString()});
