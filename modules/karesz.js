@@ -3,7 +3,7 @@ module.exports = (app, succ, err) => {
 
     app.get("/karesz", (req, res) => {
         res.json({
-            data: "Karesz DB v0.1",
+            data: "Karesz DB v1.0",
             time: new Date().toLocaleString(),
             url: process.env.KARESZ_URL,
         });
