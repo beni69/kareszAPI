@@ -11,8 +11,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
-const key = fs.readFileSync(__dirname + "/selfsigned.key");
-const cert = fs.readFileSync(__dirname + "/selfsigned.crt");
+const key = fs.readFileSync(__dirname + "/../selfsigned.key");
+const cert = fs.readFileSync(__dirname + "/../selfsigned.crt");
 const options = {key: key, cert: cert};
 
 // modules
