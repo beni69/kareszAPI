@@ -9,6 +9,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
+require("../config/db")(); // connect to db
+
 // modules
 require("./light.js")(app, succ, err);
 require("./karesz.js")(app, succ, err);

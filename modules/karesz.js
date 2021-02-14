@@ -1,5 +1,7 @@
 module.exports = (app, succ, err) => {
     const fs = require("fs");
+    const mongoose = require("mongoose");
+    const reaction = require("../models/reaction");
 
     app.get("/karesz", (req, res) => {
         res.json({
@@ -9,15 +11,12 @@ module.exports = (app, succ, err) => {
         });
     });
 
-    app.get("/karesz/reaction", (req, res) => {
-        if (!fs.existsSync("./data/reactionTimes"))
-            return err(res, "Data not found!", 503);
-        const reactions = fs
-            .readFileSync("./data/reactionTimes")
-            .toString()
-            .trim()
-            .split(/\s/)
-            .map(x => parseInt(x));
+    app.get("/karesz/reaction", async (req, res) => {
+        let reactions = [];
+        await reaction.find({}, (error, res2) => {
+            if (error) return res.status(500).send(error);
+            res2.forEach(item => reactions.push(item.time));
+        });
 
         res.json({
             data: reactions,
@@ -27,18 +26,11 @@ module.exports = (app, succ, err) => {
         });
     });
 
-    app.post("/karesz/reaction", (req, res) => {
+    app.post("/karesz/reaction", async (req, res) => {
         const time = req.body.time || req.query.time || null;
+        const data = new reaction({time, date: Date.now()});
 
-        if (req.headers.origin != process.env.KARESZ_URL)
-            return err(res, "Fuck off", 403);
-        else if (!time) return err(res, "No time provided");
-        else if (isNaN(parseInt(time)))
-            return err(res, "Data must be a number");
-        else if (parseInt(time) > 1000 || parseInt(time) < 69) return succ(res);
-
-        if (!fs.existsSync("./data/")) fs.mkdirSync("./data/");
-        fs.appendFileSync("./data/reactionTimes", time + "\n");
+        await data.save();
         succ(res);
     });
 
