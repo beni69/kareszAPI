@@ -1,6 +1,4 @@
 module.exports = (app, succ, err) => {
-    const fs = require("fs");
-    const mongoose = require("mongoose");
     const reaction = require("../models/reaction");
 
     app.get("/karesz", (req, res) => {
@@ -35,10 +33,11 @@ module.exports = (app, succ, err) => {
     });
 
     app.delete("/karesz/reaction", (req, res) => {
-        const sure = req.body.sure || req.query.sure || false;
-        if (!sure) return err(res, "NO");
-        fs.rmSync("./data/reactionTimes");
-        succ(res);
+        // const sure = req.body.sure || req.query.sure || false;
+        // if (!sure) return err(res, "NO");
+        // fs.rmSync("./data/reactionTimes");
+        // succ(res);
+        // TODO: remove support
     });
 
     function average(array) {
