@@ -43,7 +43,7 @@ router.post("/shortener", async (req, res) => {
     // if custom code
     else {
         // return if a link already exists with thee same code
-        if (await url.exists({code}))
+        if (await url.exists({_id: code}))
             return err(res, "Custom code already in use", 409);
 
         const newUrl = new url({_id: code, dest, url: `${baseUrl}/${code}`});
