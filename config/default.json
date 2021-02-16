@@ -2,5 +2,5 @@
     "port": 3333,
     "mongoURI": "mongodb+srv://db:20050926@cluster0.tjyee.mongodb.net/karesz?retryWrites=true&w=majority",
     "kareszurl": "http://karesz.xyz",
-    "baseurl": "http://localhost:3333"
+    "baseurl": "http://u.karesz.xyz"
 }
