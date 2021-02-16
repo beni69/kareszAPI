@@ -1,7 +1,4 @@
 const mongoose = require("mongoose");
-// const config = require("config");
-// const baseUrl = config.get("baseurl");
-
 module.exports = mongoose.model(
     "url",
     new mongoose.Schema({
