@@ -2,18 +2,25 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const dotenv = require("dotenv");
 
 // setup
-require("dotenv").config();
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
+app.use(helmet());
+app.use(morgan(":method :status - :url - :response-time ms - :user-agent"));
+require("dotenv").config();
 require("../config/db")(); // connect to db
+module.exports = {succ, err};
 
 // modules
-require("./light.js")(app, succ, err);
-require("./karesz.js")(app, succ, err);
+app.use("/karesz", require("./karesz"));
+app.use("/light", require("./light"));
+app.use("/", require("./shortener"));
 
 // defaults
 app.get("/", (req, res) => {
