@@ -5,7 +5,7 @@
     "main": "modules/index.js",
     "scripts": {
         "test": "nodemon .",
-        "start": "node .",
+        "start": "export NODE_ENV=production; node .",
         "refresh": "git pull; npm ci"
     },
     "keywords": [],
