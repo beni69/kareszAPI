@@ -9,7 +9,6 @@
         "ecmaVersion": 12
     },
     "rules": {
-        "no-extra-parens": "warn",
         "no-else-return": "warn",
         "no-unused-vars": "off",
         "camelcase": "warn",
