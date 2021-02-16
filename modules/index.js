@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const dotenv = require("dotenv");
+const config = require("config");
 
 // setup
 const app = express();
@@ -13,9 +13,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 app.use(helmet());
 app.use(morgan(":method :status - :url - :response-time ms - :user-agent"));
-require("dotenv").config();
 require("../config/db")(); // connect to db
 module.exports = {succ, err};
+const PORT = config.get("port");
 
 // modules
 app.use("/karesz", require("./karesz"));
@@ -27,8 +27,8 @@ app.get("/", (req, res) => {
     res.json({data: "Hello World!", time: new Date().toLocaleString()});
 });
 
-app.listen(3333, () => {
-    console.log("Server ready!");
+app.listen(PORT, () => {
+    console.log(`Server ready on ${PORT}`);
 });
 
 // functions
