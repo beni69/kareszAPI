@@ -6,7 +6,7 @@
     "scripts": {
         "test": "nodemon .",
         "start": "export NODE_ENV=production; node .",
-        "refresh": "git pull; npm ci"
+        "refresh": "git pull; npm ci; pm2 restart piAPI"
     },
     "keywords": [],
     "author": "",
