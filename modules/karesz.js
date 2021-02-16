@@ -6,7 +6,7 @@ const {succ, err} = require("./index");
 
 router.get("/", (req, res) => {
     res.json({
-        data: "Karesz DB v2-beta",
+        data: "Karesz DB v2.0",
         time: new Date().toLocaleString(),
         url: config.get("kareszurl"),
     });
