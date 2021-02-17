@@ -69,6 +69,21 @@ router.get("/shortener", async (req, res) => {
     res.json(data);
 });
 
+// delete a link
+router.delete("/shortener", async (req, res) => {
+    const code = req.body.data || req.query.data || null;
+    if (code == null) return err(res, "Please provide a url or a code");
+
+    // get the entry by either the url or the code
+    let data;
+    if (validUrl.isUri(code)) data = await url.findOne({url: code});
+    else data = await url.findById(code);
+    if (!data) return err(res, "This link couldn't be found", 404);
+
+    await data.delete();
+    res.json({data: "Success!", deleted: data});
+});
+
 // redirecting
 router.get("/:code", async (req, res) => {
     const {code} = req.params;
