@@ -94,7 +94,7 @@ router.get("/:code", async (req, res) => {
 
     // redirect user
     const dest = await url.findById(code);
-    res.redirect(dest.dest);
+    res.status(301).redirect(dest.dest);
 
     // count clicks
     await dest.updateOne({clicks: dest.clicks + 1});
