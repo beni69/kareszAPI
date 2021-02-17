@@ -62,8 +62,11 @@ router.get("/shortener", async (req, res) => {
 
     // get the entry by either the url or the code
     let data;
-    if (validUrl.isUri(code)) data = await url.findOne({ url: code });
-    else data = await url.findById(code);
+    if (validUrl.isUri(code)) {
+        data = await url.findOne({ url: code });
+        if (!data) data = await url.findOne({ dest: code });
+    } else data = await url.findById(code);
+    console.log(data);
     if (!data) return err(res, "This link couldn't be found", 404);
 
     res.json(data);
@@ -89,7 +92,8 @@ router.get("/:code", async (req, res) => {
     const { code } = req.params;
 
     // return 404 if invalid
-    if (!(await url.exists({ _id: code }))) return res.status(404).json("Link not found");
+    if (!(await url.exists({ _id: code })))
+        return res.status(404).json("Link not found");
 
     // redirect user
     const dest = await url.findById(code);
