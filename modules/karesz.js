@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const reaction = require("../models/reaction");
 const config = require("config");
-const {succ, err} = require("./index");
+const { succ, err } = require("./index");
 
 router.get("/", (req, res) => {
     res.json({
@@ -32,7 +32,7 @@ router.get("/reaction", async (req, res) => {
 
 router.post("/reaction", async (req, res) => {
     const time = req.body.time || req.query.time || null;
-    const data = new reaction({time});
+    const data = new reaction({ time });
 
     await data.save();
     succ(res);
@@ -43,11 +43,11 @@ router.delete("/reaction", async (req, res) => {
     // (gotta set up auth for that)
     const time = req.body.time || req.query.time || null;
     if (time == null) return err(res, "Please provide a time");
-    if (!(await reaction.exists({time})))
+    if (!(await reaction.exists({ time })))
         return err(res, "No data exists with that time");
 
-    const deleted = await reaction.findOneAndDelete({time});
-    res.json({data: "Success!", deleted});
+    const deleted = await reaction.findOneAndDelete({ time });
+    res.json({ data: "Success!", deleted });
 });
 
 function average(array) {

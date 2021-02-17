@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const {succ, err} = require("./index");
+const { succ, err } = require("./index");
 
 const Yeelight = require("yeelight2");
 
 router.get("/", (req, res) => {
-    res.json({data: "LightAPI v0.1.2", time: new Date().toLocaleString()});
+    res.json({ data: "LightAPI v0.1.2", time: new Date().toLocaleString() });
 });
 
 router.post("/toggle", (req, res) => {
@@ -79,7 +79,7 @@ router.post("/color", (req, res) => {
                 })
         )
         .then(light => {
-            console.log({color: color, type: type});
+            console.log({ color: color, type: type });
             if (type == "hex")
                 light.set_rgb("0x" + color.replace(/0x|#/, "")).then(() => {
                     console.log(`Set color to ${color} succeeded`);
