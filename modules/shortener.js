@@ -57,7 +57,7 @@ router.post("/shortener", async (req, res) => {
 
 // get info on a link
 router.get("/shortener", async (req, res) => {
-    const code = req.body.data || req.query.data || null;
+    const code = req.body.code || req.query.code || null;
     if (code == null) return err(res, "Please provide a url or a code");
 
     // get the entry by either the url or the code
@@ -74,7 +74,7 @@ router.get("/shortener", async (req, res) => {
 
 // delete a link
 router.delete("/shortener", async (req, res) => {
-    const code = req.query.code || null;
+    const code = req.body.code || req.query.code || null;
     if (code == null) return err(res, "Please provide a url or a code");
 
     // get the entry by either the url or the code
