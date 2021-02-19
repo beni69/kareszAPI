@@ -5,6 +5,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const config = require("config");
+const chalk = require("chalk");
 
 // setup
 const app = express();
@@ -12,8 +13,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(helmet());
-const log =
-    ":method :status - :url - :response-time ms - :remote-addr - :user-agent";
 app.use(morgan(log));
 require("../config/db")(); // connect to db
 module.exports = { succ, err };
@@ -49,4 +48,40 @@ function succ(res, msg = "Success!") {
 }
 function err(res, msg, code = 400) {
     res.status(code).json({ data: msg });
+}
+function log(tokens, req, res) {
+    const s = tokens.status(req, res);
+    let status;
+    switch (s[0]) {
+        case "2":
+            status = chalk.green(s);
+            break;
+        case "3":
+            status = chalk.cyan(s);
+            break;
+        case "4":
+            status = chalk.yellow(s);
+            break;
+        case "5":
+            status = chalk.red(s);
+            break;
+
+        default:
+            status = s;
+            break;
+    }
+
+    let msg = [
+        chalk.inverse(tokens.method(req, res)),
+        status,
+        chalk.bold(tokens.url(req, res)),
+        chalk.magenta(tokens["response-time"](req, res) + " ms"),
+        chalk.blue(req.headers["x-forwarded-for"] || req.socket.remoteAddress),
+        tokens["user-agent"](req, res),
+    ];
+
+    const ref = tokens.referrer(req, res);
+    if (ref) msg.splice(5, 0, chalk.yellow(ref));
+
+    return msg.join(chalk.grey(" - "));
 }
