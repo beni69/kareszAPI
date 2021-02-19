@@ -8,7 +8,7 @@ const { succ, err } = require("./index");
 const { customAlphabet } = require("nanoid");
 const nanoid = customAlphabet(
     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-    6
+    config.get("codeLength")
 );
 
 // creating urls
