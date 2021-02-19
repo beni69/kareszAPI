@@ -12,7 +12,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(helmet());
-app.use(morgan(":method :status - :url - :response-time ms - :user-agent"));
+const log =
+    ":method :status - :url - :response-time ms - :remote-addr - :user-agent";
+app.use(morgan(log));
 require("../config/db")(); // connect to db
 module.exports = { succ, err };
 const PORT = config.get("port");
