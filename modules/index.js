@@ -9,8 +9,8 @@ const chalk = require("chalk");
 
 // setup
 const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(helmet());
 app.use(morgan(log));
@@ -20,7 +20,6 @@ const PORT = config.get("port");
 
 // modules
 app.use("/karesz", require("./karesz"));
-app.use("/light", require("./light"));
 app.use("/", require("./shortener"));
 
 // defaults

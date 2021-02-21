@@ -66,7 +66,6 @@ router.get("/shortener", async (req, res) => {
         data = await url.findOne({ url: code });
         if (!data) data = await url.findOne({ dest: code });
     } else data = await url.findById(code);
-    console.log(data);
     if (!data) return err(res, "This link couldn't be found", 404);
 
     res.json(data);
