@@ -19,19 +19,20 @@ router.get("/now", (req, res) => {
     const date = getDate();
     const day = table[date.getDay()];
     const lesson = day[date.getHours() - 8];
-    res.json(lesson);
+    res.json(`${lesson}`);
 });
 
 router.get("/next", (req, res) => {
-    const now = getDate();
-    const day = table[now.getDay()];
-    const p = now.getHours() - 7;
-    res.json(day[p]);
+    const date = getDate();
+    const day = table[date.getDay()];
+    const lesson = day[date.getHours() - 7];
+    res.json(`${lesson}`);
 });
 
-function getDate() {
-    const date = new Date();
-    date.setHours(date.getHours() + date.getTimezoneOffset() / 60 + 1);
-}
+const getDate = () => {
+    const d = new Date();
+    d.setHours(d.getHours() + d.getTimezoneOffset() / 60 + 1);
+    return d;
+};
 
 module.exports = router;
