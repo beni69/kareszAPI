@@ -5,7 +5,8 @@
     "main": "modules/index.js",
     "scripts": {
         "start": "node .",
-        "test": "nodemon ."
+        "test": "nodemon .",
+        "publish": "gcloud app deploy"
     },
     "keywords": [],
     "author": "beni69",
