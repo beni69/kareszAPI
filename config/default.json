@@ -1,7 +1,7 @@
 {
-    "port": 3333,
+    "port": 80,
     "mongoURI": "mongodb+srv://db:20050926@cluster0.tjyee.mongodb.net/karesz?retryWrites=true&w=majority",
-    "kareszurl": "http://karesz.xyz",
-    "baseurl": "http://krsz.me",
+    "kareszurl": "https://karesz.xyz",
+    "baseurl": "https://krsz.me",
     "codeLength": 5
 }
