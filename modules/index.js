@@ -16,10 +16,11 @@ app.use(helmet());
 app.use(morgan(log));
 require("../config/db")(); // connect to db
 module.exports = { succ, err };
-const PORT = config.get("port");
+const PORT = process.env.PORT || 8080;
 
 // modules
 app.use("/karesz", require("./karesz"));
+app.use("/timetable", require("./timetable"));
 app.use("/", require("./shortener"));
 
 // defaults
@@ -64,12 +65,10 @@ function log(tokens, req, res) {
         case "5":
             status = chalk.red(s);
             break;
-
         default:
             status = s;
             break;
     }
-
     let msg = [
         chalk.inverse(tokens.method(req, res)),
         status,

@@ -1,0 +1,58 @@
+[
+    [
+        // sunday
+    ],
+    [
+        // monday
+        "Maths",
+        "IT.",
+        "IT.",
+        "Italian",
+        null,
+        "English (45m.)",
+        null
+    ],
+    [
+        // tuesday
+        null,
+        "Italian",
+        "Italian",
+        "TM.",
+        "Maths",
+        "IT.",
+        "English (20m.)"
+    ],
+    [
+        // wednesday
+        "Italian",
+        "OF.",
+        "English (45m.)",
+        null,
+        null,
+        "Hungarian",
+        null
+    ],
+    [
+        // thursday
+        null,
+        "English (20m.)",
+        "Italian",
+        "IT.",
+        "Maths",
+        null,
+        null
+    ],
+    [
+        // friday
+        null,
+        null,
+        "English (45m.)",
+        null,
+        "Hungarian",
+        null,
+        "Italian"
+    ],
+    [
+        // saturday
+    ]
+]
