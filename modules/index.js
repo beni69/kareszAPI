@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
     // if url shortener => redirect, otherwise don't
     if (req.hostname == "krsz.me" || req.hostname == "u.karesz.xyz")
         res.redirect(301, "http://krsz.me/new");
-    else res.json({ data: "Hello World!", time: new Date().toLocaleString() });
+    else res.json({ data: "Hello World!", time: getDate().toLocaleString() });
 });
 
 // TODO: TRACE /
@@ -49,6 +49,11 @@ function succ(res, msg = "Success!") {
 function err(res, msg, code = 400) {
     res.status(code).json({ data: msg });
 }
+const getDate = () => {
+    const d = new Date();
+    d.setHours(d.getHours() + d.getTimezoneOffset() / 60 + 1);
+    return d;
+};
 function log(tokens, req, res) {
     const s = tokens.status(req, res);
     let status;
