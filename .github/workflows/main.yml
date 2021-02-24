@@ -25,9 +25,9 @@ jobs:
 
             # CODE BY ME HERE
             - name: get appp.yml
-              run: echo ${{ secrets.APP_YML }} >> app.yml
-            - name: deploy
-              uses: google-github-actions/deploy-appengine@main
+              run: echo ${{ secrets.APP_YML }} > app.yml
+
+            - uses: google-github-actions/deploy-appengine@main
               with:
                   deliverables: app.yaml
                   project_id: ${{ secrets.GCP_PROJECT }}
