@@ -2,12 +2,12 @@
 
 ## How to use:
 
-## GET /shortener?code=_{a [krsz.me](https://krsz.me) link or the code part of a link}_
+### GET /shortener?code=_{a [krsz.me](https://krsz.me) link or the code part of a link}_
 
 This request sends back some info about the provided link, like the creation
 timestamp, the destination or the amount of clicks.
 
-## POST /shortener
+### POST /shortener
 
 Create a new link.
 
@@ -17,7 +17,7 @@ Create a new link.
 | code  | String | _Optional._ This will be the code in the link.                                                                                                  |
 | key   | String | _Optional._ Every link has a password _(a key)_ that can be used to delete or update it. You can provide a key of we will generate one for you. |
 
-## DELETE /shortener
+### DELETE /shortener
 
 Delete a link.
 
