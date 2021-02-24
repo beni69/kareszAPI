@@ -25,7 +25,7 @@ jobs:
 
             # CODE BY ME HERE
             - name: get appp.yml
-              run: echo " ${{ secrets.APP_YML }} " > app.yml
+              run: echo " ${{ secrets.APP_YML }} " > app.yaml
 
             - uses: google-github-actions/deploy-appengine@main
               with:
