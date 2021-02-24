@@ -10,10 +10,14 @@ const nanoid = customAlphabet(
     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
     config.get("codeLength")
 );
+const keyGen = customAlphabet(
+    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_",
+    21
+);
 
 // creating urls
 router.post("/shortener", async (req, res) => {
-    const { dest, code } = req.body;
+    let { dest, code, key } = req.body;
 
     // check destination url
     if (!validUrl.isUri(dest)) return err(res, "Invalid URL");
@@ -28,16 +32,19 @@ router.post("/shortener", async (req, res) => {
             });
 
         // create a unique code
-        let code;
         do {
             code = nanoid();
         } while (await url.exists({ _id: code }));
+
+        // create a key
+        if (!key) key = keyGen();
 
         const newUrl = new url({
             _id: code,
             dest,
             url: `${baseUrl}/${code}`,
             timestamp: Date.now(),
+            key,
         });
         await newUrl.save();
         res.json({
@@ -51,11 +58,15 @@ router.post("/shortener", async (req, res) => {
         if (await url.exists({ _id: code }))
             return err(res, "Custom code already in use", 409);
 
+        // create a key
+        if (!key) key = keyGen();
+
         const newUrl = new url({
             _id: code,
             dest,
             url: `${baseUrl}/${code}`,
             timestamp: Date.now(),
+            key,
         });
         await newUrl.save();
         res.json({
@@ -80,13 +91,17 @@ router.get("/shortener", async (req, res) => {
         }
     } else data = await url.findById(code);
     if (!data) return err(res, "This link couldn't be found", 404);
+
+    data.key = "**********"; // Deleting the key wont work for some reason
     res.json(data);
 });
 
 // delete a link
 router.delete("/shortener", async (req, res) => {
-    const code = req.body.code || req.query.code || null;
-    if (code == null) return err(res, "Please provide a url or a code");
+    // const code = req.body.code || req.query.code || null;
+    const { code, key } = req.body || req.query;
+    if (!code) return err(res, "Please provide a url or a code");
+    if (!key) return err(res, "Please provide a key");
 
     // get the entry by either the url or the code
     let data;
@@ -94,7 +109,9 @@ router.delete("/shortener", async (req, res) => {
     else data = await url.findById(code);
     if (!data) return err(res, "This link couldn't be found", 404);
 
-    await data.delete();
+    if (key === data.key) await data.delete();
+    else return err(res, "Invalid key!");
+
     res.json({ data: "Success!", deleted: data });
 });
 

@@ -8,5 +8,6 @@ module.exports = mongoose.model(
         dest: String,
         clicks: { type: Number, default: 0 },
         timestamp: Number,
+        key: String,
     })
 );
