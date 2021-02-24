@@ -14,8 +14,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(helmet());
 app.use(morgan(log));
+require("dotenv").config();
 require("../config/db")(); // connect to db
-module.exports = { succ, err };
+module.exports = { succ, err, getDate };
 const PORT = process.env.PORT || 8080;
 
 // modules
@@ -28,7 +29,11 @@ app.get("/", (req, res) => {
     // if url shortener => redirect, otherwise don't
     if (req.hostname == "krsz.me" || req.hostname == "u.karesz.xyz")
         res.redirect(301, "http://krsz.me/new");
-    else res.json({ data: "Hello World!", time: getDate().toLocaleString() });
+    else
+        res.json({
+            data: "Hello World!",
+            serverTime: new Date().toLocaleString(),
+        });
 });
 
 // TODO: TRACE /
@@ -39,7 +44,7 @@ app.get("/", (req, res) => {
 // });
 
 app.listen(PORT, () => {
-    console.log(`Server ready on ${PORT}`);
+    console.log(`Server ready on port ${PORT}`);
 });
 
 // functions
@@ -49,11 +54,11 @@ function succ(res, msg = "Success!") {
 function err(res, msg, code = 400) {
     res.status(code).json({ data: msg });
 }
-const getDate = () => {
+function getDate(x = 0) {
     const d = new Date();
-    d.setHours(d.getHours() + d.getTimezoneOffset() / 60 + 1);
+    d.setHours(d.getHours() + d.getTimezoneOffset() / 60 + x);
     return d;
-};
+}
 function log(tokens, req, res) {
     const s = tokens.status(req, res);
     let status;

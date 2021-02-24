@@ -4,7 +4,7 @@ const router = express.Router();
 const url = require("../models/url");
 const config = require("config");
 const baseUrl = config.get("baseurl");
-const { succ, err } = require("./index");
+const { succ, err, getDate } = require("./index");
 const { customAlphabet } = require("nanoid");
 const nanoid = customAlphabet(
     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
@@ -33,7 +33,12 @@ router.post("/shortener", async (req, res) => {
             code = nanoid();
         } while (await url.exists({ _id: code }));
 
-        const newUrl = new url({ _id: code, dest, url: `${baseUrl}/${code}` });
+        const newUrl = new url({
+            _id: code,
+            dest,
+            url: `${baseUrl}/${code}`,
+            timestamp: Date.now(),
+        });
         await newUrl.save();
         res.json({
             data: "Success!",
@@ -46,7 +51,12 @@ router.post("/shortener", async (req, res) => {
         if (await url.exists({ _id: code }))
             return err(res, "Custom code already in use", 409);
 
-        const newUrl = new url({ _id: code, dest, url: `${baseUrl}/${code}` });
+        const newUrl = new url({
+            _id: code,
+            dest,
+            url: `${baseUrl}/${code}`,
+            timestamp: Date.now(),
+        });
         await newUrl.save();
         res.json({
             data: "Success!",
@@ -63,11 +73,13 @@ router.get("/shortener", async (req, res) => {
     // get the entry by either the url or the code
     let data;
     if (validUrl.isUri(code)) {
-        data = await url.findOne({ url: code });
-        if (!data) data = await url.findOne({ dest: code });
+        data = await url.findOne({ dest: code });
+        if (!data) {
+            const c = code.replace(/http(s|):\/\/krsz.me\//i, "");
+            data = await url.findById(c);
+        }
     } else data = await url.findById(code);
     if (!data) return err(res, "This link couldn't be found", 404);
-
     res.json(data);
 });
 

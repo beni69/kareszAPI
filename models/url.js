@@ -7,6 +7,6 @@ module.exports = mongoose.model(
         url: String,
         dest: String,
         clicks: { type: Number, default: 0 },
-        timestamp: { type: Number, default: Date.now() },
+        timestamp: Number,
     })
 );
