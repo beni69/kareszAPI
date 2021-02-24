@@ -118,4 +118,4 @@ dist
 # custom
 data/
 test.js
-app.yaml
+app.yml
