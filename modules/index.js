@@ -60,36 +60,42 @@ function getDate(x = 0) {
     return d;
 }
 function log(tokens, req, res) {
-    const s = tokens.status(req, res);
-    let status;
-    switch (s[0]) {
-        case "2":
-            status = chalk.green(s);
-            break;
-        case "3":
-            status = chalk.cyan(s);
-            break;
-        case "4":
-            status = chalk.yellow(s);
-            break;
-        case "5":
-            status = chalk.red(s);
-            break;
-        default:
-            status = s;
-            break;
+    try {
+        const s = tokens.status(req, res);
+        let status;
+        switch (s[0]) {
+            case "2":
+                status = chalk.green(s);
+                break;
+            case "3":
+                status = chalk.cyan(s);
+                break;
+            case "4":
+                status = chalk.yellow(s);
+                break;
+            case "5":
+                status = chalk.red(s);
+                break;
+            default:
+                status = s;
+                break;
+        }
+        let msg = [
+            chalk.inverse(tokens.method(req, res)),
+            status,
+            chalk.bold(tokens.url(req, res)),
+            chalk.magenta(tokens["response-time"](req, res) + " ms"),
+            chalk.blue(
+                req.headers["x-forwarded-for"] || req.socket.remoteAddress
+            ),
+            tokens["user-agent"](req, res),
+        ];
+
+        const ref = tokens.referrer(req, res);
+        if (ref) msg.splice(5, 0, chalk.yellow(ref));
+
+        return msg.join(chalk.grey(" - "));
+    } catch {
+        return chalk.red("An unexpected error occured.");
     }
-    let msg = [
-        chalk.inverse(tokens.method(req, res)),
-        status,
-        chalk.bold(tokens.url(req, res)),
-        chalk.magenta(tokens["response-time"](req, res) + " ms"),
-        chalk.blue(req.headers["x-forwarded-for"] || req.socket.remoteAddress),
-        tokens["user-agent"](req, res),
-    ];
-
-    const ref = tokens.referrer(req, res);
-    if (ref) msg.splice(5, 0, chalk.yellow(ref));
-
-    return msg.join(chalk.grey(" - "));
 }

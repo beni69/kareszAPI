@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
-module.exports = mongoose.model(
-    "url",
-    new mongoose.Schema({
-        _id: String,
-        __v: { type: Number, default: 0 },
-        url: String,
-        dest: String,
-        clicks: { type: Number, default: 0 },
-        timestamp: Number,
-        key: String,
-    })
-);
+
+const url = new mongoose.Schema({
+    code: String,
+    url: String,
+    dest: String,
+    clicks: { type: Number, default: 0 },
+    timestamp: { type: Date, default: Date.now },
+    key: String,
+    __v: { type: Number, default: 1 },
+});
+const model = mongoose.model("url", url);
+
+module.exports = model;
