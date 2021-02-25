@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const url = new mongoose.Schema({
-    code: String,
+    _id: String,
     url: String,
     dest: String,
     clicks: { type: Number, default: 0 },
