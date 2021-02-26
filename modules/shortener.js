@@ -24,12 +24,13 @@ router.post("/shortener", async (req, res) => {
 
     // if no custom code
     if (!code) {
-        // if theres already an entry witn the same dest, just return that one
-        if ((await url.exists({ dest })) && req.body.force != true)
-            return res.json({
-                data: "Success!",
-                created: await url.findOne({ dest }),
-            });
+        //! turning this off: potential security vunerability
+        // // if theres already an entry witn the same dest, just return that one
+        // if ((await url.exists({ dest })) && req.body.force != true)
+        //     return res.json({
+        //         data: "Success!",
+        //         created: await url.findOne({ dest }),
+        //     });
 
         // create a unique code
         do {
