@@ -4,12 +4,13 @@
 
 ### GET /shortener?code=_{a [krsz.me](https://krsz.me) link or the code part of a link}_
 
-This request sends back some info about the provided link, like the creation
-timestamp, the destination or the amount of clicks.
+#### This request sends back some info about the provided link, like the creation timestamp, the destination or the amount of clicks.
+
+**Response:** the json object of the link
 
 ### POST /shortener
 
-Create a new link.
+#### Create a new link.
 
 | Field | Type   | Description                                                                                                                                     |
 | ----- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -17,11 +18,15 @@ Create a new link.
 | code  | String | _Optional._ This will be the code in the link.                                                                                                  |
 | key   | String | _Optional._ Every link has a password _(a key)_ that can be used to delete or update it. You can provide a key of we will generate one for you. |
 
+**Response:** "Success!", and the json object of the created link.
+
 ### DELETE /shortener
 
-Delete a link.
+#### Delete a link.
 
 | Field | Type   | Description          |
 | ----- | ------ | -------------------- |
 | code  | String | The code or the link |
 | key   | String | Your key             |
+
+**Response:** "Success!", and the json object of the deleted link.
