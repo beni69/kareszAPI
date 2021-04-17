@@ -13,8 +13,8 @@
 #### Create a new link.
 
 | Field | Type   | Description                                                                                                                                     |
-| ----- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| dest  | String | The destination url. This can only be an actual url: (http|https)://...                                                                         |
+| ----- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| dest  | String | The destination url. This can only be an actual url: (http                                                                                      | https)://... |
 | code  | String | _Optional._ This will be the code in the link.                                                                                                  |
 | key   | String | _Optional._ Every link has a password _(a key)_ that can be used to delete or update it. You can provide a key or we will generate one for you. |
 

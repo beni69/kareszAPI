@@ -1,5 +1,7 @@
 {
-    "kareszurl": "https://karesz.xyz",
-    "baseurl": "https://krsz.me",
+    "url": {
+        "base": "https://karesz.xyz",
+        "krszme": "https://krsz.me"
+    },
     "codeLength": 5
 }

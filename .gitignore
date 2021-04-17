@@ -116,6 +116,5 @@ dist
 .pnp.*
 
 # custom
-data/
-test.js
 app.yml
+tmp/
