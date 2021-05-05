@@ -26,6 +26,13 @@ jobs:
             # CODE BY ME HERE
             - name: get appp.yml
               run: echo " ${{ secrets.APP_YML }} " > app.yaml
+              
+            - name: setup nodejs
+              uses: actions/setup-node@v2.1.5
+              
+            - name: build typescript
+            - run: yarn install
+            - run: yarn build
 
             - uses: google-github-actions/deploy-appengine@main
               with:
@@ -40,13 +47,4 @@ jobs:
                   --header 'Content-Type: application/json' \
                   --cookie '__cfduid=d1e7a5c64bc2f56c01ea5591b075b95cd1614172011; __cfruid=04c218a326cc7b1f058bd1659507ccd43ae8b48b-1614172011' \
                   --data '{	"content":"Deployed Successfully!","username":"App Engine","avatar_url":"https://i.imgur.com/WxZzTz8.png"}'
-
-#       # Runs a single command using the runners shell
-#       - name: Run a one-line script
-#         run: echo Hello, world!
-
-#       # Runs a set of commands using the runners shell
-#       - name: Run a multi-line script
-#         run: |
-#           echo Add other actions to build,
-#           echo test, and deploy your project.
+                  
