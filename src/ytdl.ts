@@ -2,8 +2,8 @@ import cp from "child_process";
 import express from "express";
 import ffmpeg from "ffmpeg-static";
 import fs from "fs";
-import { promisify } from "util";
 import { join } from "path";
+import { promisify } from "util";
 import ytdl from "ytdl-core";
 import { ApiError } from ".";
 
@@ -72,7 +72,6 @@ export const init = (app: express.Application) => {
         ffp.on("close", () => {
             console.log("ffmpeg done!");
 
-            // res.sendFile(join(process.cwd(), fname));
             res.download(join(process.cwd(), fname));
 
             timeDel(fname);
@@ -96,10 +95,6 @@ export const init = (app: express.Application) => {
         const data = await ytdl.getBasicInfo(ref);
 
         res.json(data.videoDetails);
-    });
-
-    app.get("/b", (req, res, next) => {
-        res.json({ body: req.body, params: req.params, query: req.query });
     });
 
     function timeDel(file: string, time = 300000) {
