@@ -17,6 +17,9 @@ export class ApiError extends Error {
         { id: 20001, name: "No url provided" },
         { id: 20002, name: "Not a youtube url" },
         { id: 20003, name: "Not a real youtube video" },
+
+        // other bs
+        { id: 90101, name: "Invalid webhook" },
     ]);
 
     public static Handler(
@@ -33,7 +36,7 @@ export class ApiError extends Error {
 
         if (err instanceof ApiError) {
             res.status(err.code);
-            d.code = err.code;
+            d.code = err.id;
         }
 
         res.json(d);
@@ -42,7 +45,6 @@ export class ApiError extends Error {
     message: string;
     id: number;
     code: number;
-    // error = true;
 
     constructor(id: number) {
         super();
