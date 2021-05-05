@@ -30,9 +30,11 @@ jobs:
             - name: setup nodejs
               uses: actions/setup-node@v2.1.5
               
+            - name: install packages
+              run: yarn install
+              
             - name: build typescript
-            - run: yarn install
-            - run: yarn build
+              run: yarn build
 
             - uses: google-github-actions/deploy-appengine@main
               with:
