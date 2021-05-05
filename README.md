@@ -2,9 +2,13 @@
 
 ## How to use:
 
-### GET /shortener?code=_{a [krsz.me](https://krsz.me) link or the code part of a link}_
+### GET /shortener?_params_
 
-#### This request sends back some info about the provided link, like the creation timestamp, the destination or the amount of clicks.
+| Field | Type   | Description              |
+| ----- | ------ | ------------------------ |
+| code  | String | Code \| URL of the link. |
+
+#### This endpoint sends back some info about the provided link, like the creation timestamp, the destination or the amount of clicks.
 
 **Response:** The json object of the link
 
@@ -19,14 +23,3 @@
 | key   | String | _Optional._ Every link has a password _(a key)_ that can be used to delete or update it. You can provide a key or we will generate one for you. |
 
 **Response:** The json object of the created link.
-
-### DELETE /shortener
-
-#### Delete a link.
-
-| Field | Type   | Description          |
-| ----- | ------ | -------------------- |
-| code  | String | The code or the link |
-| key   | String | Your key             |
-
-**Response:** The json object of the deleted link.
