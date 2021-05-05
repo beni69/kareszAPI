@@ -2,14 +2,10 @@ import chalk from "chalk";
 import cors from "cors";
 import dotenv from "dotenv";
 import express, { Request, Response } from "express";
-import { readFile as readFileCB } from "fs";
 import helmet from "helmet";
 import morgan from "morgan";
-import { promisify } from "util";
 import ApiError from "./ApiError";
 import { connect as connectDB } from "./Mongoose";
-
-const readFile = promisify(readFileCB);
 
 dotenv.config();
 
@@ -27,6 +23,7 @@ app.use(morgan(log));
 
 //* routes
 require("./ytdl").init(app);
+require("./ip").init(app);
 require("./shortener").init(app);
 
 //* error handler
@@ -49,7 +46,7 @@ app.get("/", (req, res) => {
 
 app.listen(PORT, () => console.log(`Listening on port ${chalk.blue(PORT)}`));
 
-process.on("unhandledRejection", err => {});
+process.on("unhandledRejection", () => {});
 
 function log(
     tokens: morgan.TokenIndexer<Request, Response>,
